@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{url_for('static',filename='dist/css/output.css')}}">
+    <title>Presencia</title>
+</head>
+
+<body class="h-screen bg-gradient-to-b from-cyan-200 to-cyan-500">
+
+    <div class="flex flex-row justify-center items-center w-full">
+        <!-- <label class="text-lg text-white max-w-xs no-underline font-bold py-2 my-2">name</label> -->
+        <a class="text-lg max-w-xs no-underline" href="#">
+            <button
+                class="text-lg font-bold rounded-lg w-96 py-2 my-8 text-cyan-200 bg-cyan-700 hover:bg-cyan-200 hover:text-cyan-700"
+                type='submit'>
+                Take Attendance
+            </button>
+        </a>
+    </div>
+
+
+    <div class="col rounded-lg p-0 bg-opacity-50 bg-gray-400 m-10 mb-10 min-h-400">
+        <h2 class="rounded-t-lg bg-slate-600 text-white p-2 text-center text-2xl font-bold">Today's Attendance assignment</h2>
+        <div class="mt-1">
+            <table class="min-w-full bg-slate-600 border border-slate-300">
+                <thead>
+                    <tr>
+                        <th class="p-4 font-bold">ID</th>
+                        <th class="p-4 font-bold">Name</th>
+                        <th class="p-4 font-bold">Attendance</th>
+                        <th class="p-4 font-bold">Time</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="bg-slate-200 border border-slate-400">
+                        <td class="p-2 text-center font-semibold">1</td>
+                        <td class="p-2 text-center font-semibold">John Doe</td>
+                        <td class="p-2 text-center font-semibold">Present</td>
+                        <td class="p-2 text-center font-semibold">12:50:00</td>
+                    </tr>
+                    <tr class="bg-slate-200 border border-slate-400">
+                        <td class="p-2 text-center font-semibold">2</td>
+                        <td class="p-2 text-center font-semibold">Jane Doe</td>
+                        <td class="p-2 text-center font-semibold">Present</td>
+                        <td class="p-2 text-center font-semibold">12:50:00</td>
+                    </tr>
+                    <tr class="bg-slate-200 border border-slate-400">
+                        <td class="p-2 text-center font-semibold">3</td>
+                        <td class="p-2 text-center font-semibold">John Smith</td>
+                        <td class="p-2 text-center font-semibold">Absent</td>
+                        <td class="p-2 text-center font-semibold">12:50:00</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="flex mt-4 justify-end mr-4">
+        <a class="text-lg text-white text-center mx-2 no-underline w-auto font-bold rounded-lg py-2 px-4 my-4 bg-red-600 hover:bg-red-300 hover:text-black"
+            href="{{url_for('back')}}">
+            BACK
+        </a>
+    </div>
+</body>
+
+</html>

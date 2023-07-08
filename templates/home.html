@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{url_for('static',filename='dist/css/output.css')}}">
+    <title>Presencia</title>
+</head>
+
+<body class="h-screen bg-gradient-to-b from-cyan-200 to-cyan-500">
+    <nav class="flex items-center justify-between bg-cyan-800 p-4">
+        <div class="flex items-center">
+            <div class="text-cyan-400 text-2xl font-bold">Presencia</div>
+        </div>
+        <div class="flex flex-row">
+            <span class="text-blue-200 text-lg p-2 mr-28 font-bold">{{name}}</span>
+            <form action="{{url_for('logout')}}" method="post">
+                <button type="submit" class="bg-red-200 text-red-600 text-lg p-2 rounded-lg shadow-lg font-bold hover:text-red-200 hover:bg-red-600">Logout</button>
+            </form>
+        </div>
+    </nav>
+    <div class="flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+        <div class="flex">
+            <div class="flex flex-col mx-5">
+                <div class="bg-white p-4 shadow-lg sm:rounded-lg sm:px-10 my-4">
+                    <a href="{{url_for('attend')}}" class="flex justify-center text-lg font-bold text-cyan-500">Attendence</a>
+                </div>
+                <div class="bg-white p-4 shadow-lg sm:rounded-lg sm:px-10 my-4">
+                    <a href="{{url_for('grade')}}" class="flex justify-center text-lg font-bold text-cyan-500">Class</a>
+                </div>
+            </div>
+            <div class="w-full flex justify-center flex-col items-center">
+                <div class="flex justify-end m-5">
+                    <div class="w-44 mx-2 flex flex-col">
+                        <label for="Class">Select Class</label>
+                        <select
+                            class="w-full py-2 px-4 pr-8 leading-tight bg-white border border-gray-300 rounded shadow focus:outline-none focus:border-gray-500"
+                            name="Class" id="Class">
+                            <option value="element1">Class 1</option>
+                            <option value="element2">Class 2</option>
+                        </select>
+                    </div>
+                    <div class="w-44 mx-2 flex flex-col">
+                        <label for="Date">Select Date</label>
+                        <select
+                            class="w-full py-2 px-4 pr-8 leading-tight bg-white border border-gray-300 rounded shadow focus:outline-none focus:border-gray-500"
+                            name="Date" id="Date">
+                            <option value="element1">Day 1</option>
+                            <option value="element2">Day 2</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="flex justify-center items-center w-1/2 h-full">
+                    <table class="min-w-full bg-slate-600 border border-slate-300">
+                        <thead>
+                            <tr>
+                                <th class="p-4 font-bold">ID</th>
+                                <th class="p-4 font-bold">Name</th>
+                                <th class="p-4 font-bold">Attendance</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="bg-slate-200 border border-slate-400">
+                                <td class="p-2 text-center font-semibold">1</td>
+                                <td class="p-2 text-center font-semibold">John Doe</td>
+                                <td class="p-2 text-center font-semibold">Present</td>
+                            </tr>
+                            <tr class="bg-slate-200 border border-slate-400">
+                                <td class="p-2 text-center font-semibold">2</td>
+                                <td class="p-2 text-center font-semibold">Jane Doe</td>
+                                <td class="p-2 text-center font-semibold">Present</td>
+                            </tr>
+                            <tr class="bg-slate-200 border border-slate-400">
+                                <td class="p-2 text-center font-semibold">3</td>
+                                <td class="p-2 text-center font-semibold">John Smith</td>
+                                <td class="p-2 text-center font-semibold">Absent</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
+
+
+<!-- <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                    <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20">
+                        <path d="M10 12l-6-6-1.4 1.4L10 14.8l7.4-7.4L16 6l-6 6z" />
+                    </svg>
+                </div> -->
