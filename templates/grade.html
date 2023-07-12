@@ -31,42 +31,27 @@
                 </tr>
             </thead>
             <tbody>
+                {% for row in rows %}
                 <tr class="bg-slate-200 border border-slate-400">
-                    <td class="p-4 text-center font-semibold">CS02</td>
-                    <td class="p-4 text-center font-semibold">Computer Science</td>
+                    <td class="p-4 text-center font-semibold">{{ row[0] }}</td>
+                    <td class="p-4 text-center font-semibold">{{ row[1] }}</td>
                     <td class="flex flex-row justify-evenly items-center mt-2">
-                        <button class="font-bold bg-blue-500 p-2 rounded-lg text-blue-200" id="openClassModal">
+                        <!-- <form action=""> -->
+                        <!-- <input type="hidden" name="idclass" value="{{ row[0] }}"> -->
+                        <button data-id="{{ row[0] }}" data-name="{{ row[1] }}"
+                            class="manage font-bold bg-blue-500 p-2 rounded-lg text-blue-200" id="openClassModal">
                             MANAGE
                         </button>
-                        <button class="font-bold bg-red-500 p-2 rounded-lg text-red-200">
-                            REMOVE
-                        </button>
+                        <!-- </form> -->
+                        <form action="{{url_for('delgrade')}}" method="POST">
+                            <input type="hidden" name="idclass" value="{{ row[0] }}">
+                            <button type="submit" class="font-bold bg-red-500 p-2 rounded-lg text-red-200">
+                                REMOVE
+                            </button>
+                        </form>
                     </td>
                 </tr>
-                <tr class="bg-slate-200 border border-slate-400">
-                    <td class="p-4 text-center font-semibold">CA02</td>
-                    <td class="p-4 text-center font-semibold">Computer Application</td>
-                    <td class="flex flex-row justify-evenly items-center mt-2">
-                        <button class="font-bold bg-blue-500 p-2 rounded-lg text-blue-200">
-                            MANAGE
-                        </button>
-                        <button class="font-bold bg-red-500 p-2 rounded-lg text-red-200">
-                            REMOVE
-                        </button>
-                    </td>
-                </tr>
-                <tr class="bg-slate-200 border border-slate-400">
-                    <td class="p-4 text-center font-semibold">CM312</td>
-                    <td class="p-4 text-center font-semibold">Chemistry</td>
-                    <td class="flex flex-row justify-evenly items-center mt-2">
-                        <button class="font-bold bg-blue-500 p-2 rounded-lg text-blue-200">
-                            MANAGE
-                        </button>
-                        <button class="font-bold bg-red-500 p-2 rounded-lg text-red-200">
-                            REMOVE
-                        </button>
-                    </td>
-                </tr>
+                {% endfor %}
             </tbody>
         </table>
     </div>
@@ -76,18 +61,18 @@
         <div class="flex items-center justify-center min-h-screen">
             <div class="modal-content bg-white w-96 rounded-lg p-4">
                 <h2 class="text-lg font-bold mb-4  text-center">Add new Class</h2>
-                <form action="">
+                <form action="{{url_for('addgrade')}}" method="POST">
                     <div class="my-2">
-                        <label for="email" class="block text-sm font-medium text-gray-700"> Class Id </label>
+                        <label for="id" class="block text-sm font-medium text-gray-700"> Class Id </label>
                         <div class="mt-1">
-                            <input id="classid" name="classid" type="text" required
+                            <input id="classid" name="classid" type="text" autocomplete="off" required
                                 class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-pink-500 focus:border-pink-500 sm:text-sm">
                         </div>
                     </div>
                     <div class="my-2">
-                        <label for="email" class="block text-sm font-medium text-gray-700"> Class Name </label>
+                        <label for="name" class="block text-sm font-medium text-gray-700"> Class Name </label>
                         <div class="mt-1">
-                            <input id="classname" name="classname" type="text" required
+                            <input id="classname" name="classname" type="text" autocomplete="off" required
                                 class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-pink-500 focus:border-pink-500 sm:text-sm">
                         </div>
                     </div>
@@ -96,7 +81,7 @@
                             class="text-lg text-white text-center mx-2 no-underline w-auto font-bold rounded-lg py-2 mt-4 px-4 bg-pink-600">
                             ADD
                         </button>
-                        <button id="closeAddModal"
+                        <button type="button" id="closeAddModal"
                             class="text-lg text-white text-center mx-2 no-underline w-auto font-bold rounded-lg py-2 mt-4 px-4 bg-red-600">
                             Close
                         </button>
@@ -114,12 +99,25 @@
                 <form action="">
                     <div class="flex flex-row my-2 justify-center">
                         <label class="block text-sm px-2 font-medium text-gray-500 text-center"> Class Id : </label>
-                        <label class="block text-sm px-2 font-medium text-gray-700 text-center"> CS02 </label>
+                        <label class="dataid block text-sm px-2 font-medium text-gray-700 text-center"> CS02 </label>
                     </div>
                     <div class="flex flex-row my-2 justify-center">
                         <label class="block text-sm px-2 font-medium text-gray-500 text-center"> Class : </label>
-                        <label class="block text-sm px-2 font-medium text-gray-700 text-center"> Computer Science
+                        <label class="dataname block text-sm px-2 font-medium text-gray-700 text-center"> Computer
+                            Science
                         </label>
+                    </div>
+                    <div class="my-2">
+                        <label for="id" class="block text-sm font-medium text-gray-700"> Student Id </label>
+                        <div class="mt-1">
+                            <input id="stdid" name="stdid" type="text" autocomplete="off" required
+                                class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-pink-500 focus:border-pink-500 sm:text-sm">
+                        </div>
+                        <label for="id" class="block text-sm font-medium text-gray-700"> Student Name </label>
+                        <div class="mt-1">
+                            <input id="stdname" name="stdname" type="text" autocomplete="off" required
+                                class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-pink-500 focus:border-pink-500 sm:text-sm">
+                        </div>
                     </div>
                     <table class="min-w-full bg-slate-200 border border-slate-300">
                         <thead>
@@ -138,7 +136,7 @@
                                     </button>
                                 </td>
                             </tr>
-                            <tr class="bg-slate-200 border border-slate-400">
+                            <!-- <tr class="bg-slate-200 border border-slate-400">
                                 <td class="p-2 text-center font-semibold">2</td>
                                 <td class="p-2 text-center font-semibold">Jane Doe</td>
                                 <td class="flex flex-row justify-center items-center">
@@ -155,7 +153,7 @@
                                         REMOVE
                                     </button>
                                 </td>
-                            </tr>
+                            </tr> -->
                         </tbody>
                     </table>
                     <!-- <div class="flex justify-center">
@@ -182,6 +180,21 @@
 
     <script>
         $(document).ready(function () {
+
+            $('.manage').click(function (e) {
+                idclass = $(this).attr('data-id');
+                nameclass = $(this).attr('data-name');
+                $(".dataid").html(idclass);
+                $(".dataname").html(nameclass);
+                console.log(idclass)
+                console.log(nameclass)
+                $("#classModal").removeClass("hidden");
+                e.preventDefault();
+            })
+
+            // $(".dataid").html(idclass);
+            // $(".dataname").html(nameclass);
+
             // Open modal on button click
             $("#openAddModal").click(function () {
                 $("#addModal").removeClass("hidden");
@@ -193,13 +206,18 @@
             });
 
             // Open modal on button click
-            $("#openClassModal").click(function () {
-                $("#classModal").removeClass("hidden");
-            });
+            // $("#openClassModal").click(function () {
+            //     $("#classModal").removeClass("hidden");
+            // });
 
             // Close modal on button click
             $("#closeClassModal").click(function () {
                 $("#classModal").addClass("hidden");
+            });
+
+            // Prevent form submission on close button click
+            $("#closeAddModal, #closeClassModal").click(function (event) {
+                event.preventDefault();
             });
         });
     </script>

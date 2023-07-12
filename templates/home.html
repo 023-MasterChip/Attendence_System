@@ -37,8 +37,9 @@
                         <select
                             class="w-full py-2 px-4 pr-8 leading-tight bg-white border border-gray-300 rounded shadow focus:outline-none focus:border-gray-500"
                             name="Class" id="Class">
-                            <option value="element1">Class 1</option>
-                            <option value="element2">Class 2</option>
+                            {% for row in rows %}
+                            <option value="element1">{{ row[0] }}</option>
+                            {% endfor %}
                         </select>
                     </div>
                     <div class="w-44 mx-2 flex flex-col">
