@@ -9,16 +9,16 @@
     <title>Presencia</title>
 </head>
 
-<body class="h-screen bg-gradient-to-b from-cyan-200 to-cyan-500">
+<body class="h-screen bg-gradient-to-b from-cyan-500 to-cyan-900">
     <div class="flex justify-end mr-4">
-        <a class="text-lg text-white text-center mx-2 no-underline w-auto font-bold rounded-lg py-2 mt-4 px-4 bg-red-600 hover:bg-red-300 hover:text-black"
-            href="{{url_for('back')}}">
+        <a id="tohome" class="text-lg text-white text-center mx-2 no-underline w-auto font-bold rounded-lg py-2 mt-4 px-4 bg-red-600 hover:bg-red-300 hover:text-black"
+            href="{{url_for('back', id='tohome')}}">
             BACK
         </a>
     </div>
     <div class="flex flex-col justify-center">
-        <label class="font-extrabold text-5xl text-pink-600 text-center">Manage Class</label>
-        <button class="text-black bg-pink-600 px-4 py-2 m-auto mt-5 font-semibold rounded-lg" id="openAddModal">
+        <label class="font-extrabold text-5xl text-cyan-300 text-center">CLASS DETAILS</label>
+        <button class="text-black bg-emerald-500 px-4 py-2 m-auto mt-5 font-bold rounded-lg text-lg hover:bg-emerald-800 hover:text-white" id="openAddModal">
             ADD CLASS
         </button>
     </div>
@@ -36,16 +36,17 @@
                     <td class="p-4 text-center font-semibold">{{ row[0] }}</td>
                     <td class="p-4 text-center font-semibold">{{ row[1] }}</td>
                     <td class="flex flex-row justify-evenly items-center mt-2">
-                        <!-- <form action=""> -->
-                        <!-- <input type="hidden" name="idclass" value="{{ row[0] }}"> -->
-                        <button data-id="{{ row[0] }}" data-name="{{ row[1] }}"
-                            class="manage font-bold bg-blue-500 p-2 rounded-lg text-blue-200" id="openClassModal">
-                            MANAGE
-                        </button>
-                        <!-- </form> -->
+                        <form action="{{url_for('manage')}}" method="post">
+                            <input type="hidden" name="idclass" value="{{ row[0] }}">
+                            <input type="hidden" name="nameclass" value="{{ row[1] }}">
+                            <button class="manage font-bold bg-blue-500 p-2 rounded-lg text-blue-200 hover:bg-blue-200 hover:text-blue-500"
+                                id="openClassModal" type="submit">
+                                MANAGE
+                            </button>
+                        </form>
                         <form action="{{url_for('delgrade')}}" method="POST">
                             <input type="hidden" name="idclass" value="{{ row[0] }}">
-                            <button type="submit" class="font-bold bg-red-500 p-2 rounded-lg text-red-200">
+                            <button type="submit" class="font-bold bg-red-500 p-2 rounded-lg text-red-200 hover:bg-red-200 hover:text-red-500">
                                 REMOVE
                             </button>
                         </form>
@@ -91,109 +92,21 @@
         </div>
     </div>
 
-    <!-- Modal Manage Class -->
-    <div id="classModal" class="modal hidden fixed z-10 inset-0 overflow-y-auto">
-        <div class="flex items-center justify-center min-h-screen">
-            <div class="modal-content bg-white w-96 rounded-lg p-4">
-                <h2 class="text-lg font-bold mb-4  text-center">Manage Class</h2>
-                <form action="">
-                    <div class="flex flex-row my-2 justify-center">
-                        <label class="block text-sm px-2 font-medium text-gray-500 text-center"> Class Id : </label>
-                        <label class="dataid block text-sm px-2 font-medium text-gray-700 text-center"> CS02 </label>
-                    </div>
-                    <div class="flex flex-row my-2 justify-center">
-                        <label class="block text-sm px-2 font-medium text-gray-500 text-center"> Class : </label>
-                        <label class="dataname block text-sm px-2 font-medium text-gray-700 text-center"> Computer
-                            Science
-                        </label>
-                    </div>
-                    <div class="my-2">
-                        <label for="id" class="block text-sm font-medium text-gray-700"> Student Id </label>
-                        <div class="mt-1">
-                            <input id="stdid" name="stdid" type="text" autocomplete="off" required
-                                class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-pink-500 focus:border-pink-500 sm:text-sm">
-                        </div>
-                        <label for="id" class="block text-sm font-medium text-gray-700"> Student Name </label>
-                        <div class="mt-1">
-                            <input id="stdname" name="stdname" type="text" autocomplete="off" required
-                                class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-pink-500 focus:border-pink-500 sm:text-sm">
-                        </div>
-                    </div>
-                    <table class="min-w-full bg-slate-200 border border-slate-300">
-                        <thead>
-                            <tr>
-                                <th class="p-4 font-bold">ID</th>
-                                <th class="p-4 font-bold">Name</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr class="bg-slate-200 border border-slate-400">
-                                <td class="p-2 text-center font-semibold">1</td>
-                                <td class="p-2 text-center font-semibold">John Doe</td>
-                                <td class="flex flex-row justify-center items-center">
-                                    <button class="font-bold bg-red-500 p-2 rounded-lg text-red-200 text-sm">
-                                        REMOVE
-                                    </button>
-                                </td>
-                            </tr>
-                            <!-- <tr class="bg-slate-200 border border-slate-400">
-                                <td class="p-2 text-center font-semibold">2</td>
-                                <td class="p-2 text-center font-semibold">Jane Doe</td>
-                                <td class="flex flex-row justify-center items-center">
-                                    <button class="font-bold bg-red-500 p-2 rounded-lg text-red-200 text-sm">
-                                        REMOVE
-                                    </button>
-                                </td>
-                            </tr>
-                            <tr class="bg-slate-200 border border-slate-400">
-                                <td class="p-2 text-center font-semibold">3</td>
-                                <td class="p-2 text-center font-semibold">John Smith</td>
-                                <td class="flex flex-row justify-center items-center">
-                                    <button class="font-bold bg-red-500 p-2 rounded-lg text-red-200 text-sm">
-                                        REMOVE
-                                    </button>
-                                </td>
-                            </tr> -->
-                        </tbody>
-                    </table>
-                    <!-- <div class="flex justify-center">
-                        <button id="addclass"
-                            class="text-lg font-bold rounded-lg w-1/2 py-2 my-4 bg-pink-600 text-white">
-                            ADD
-                        </button>
-                    </div> -->
-                </form>
-                <div class="flex flex-row justify-evenly">
-                    <button id=""
-                        class="text-lg text-white text-center mx-2 no-underline w-auto font-bold rounded-lg py-2 mt-4 px-4 bg-cyan-600">
-                        ADD
-                    </button>
-                    <button id="closeClassModal"
-                        class="text-lg text-white text-center mx-2 no-underline w-auto font-bold rounded-lg py-2 mt-4 px-4 bg-red-600">
-                        Close
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-
 
     <script>
         $(document).ready(function () {
 
-            $('.manage').click(function (e) {
-                idclass = $(this).attr('data-id');
-                nameclass = $(this).attr('data-name');
-                $(".dataid").html(idclass);
-                $(".dataname").html(nameclass);
-                console.log(idclass)
-                console.log(nameclass)
-                $("#classModal").removeClass("hidden");
-                e.preventDefault();
-            })
-
-            // $(".dataid").html(idclass);
-            // $(".dataname").html(nameclass);
+            // $('.manage').click(function (e) {
+            //     idclass = $(this).attr('data-id');
+            //     nameclass = $(this).attr('data-name');
+            //     $(".dataid").html(idclass);
+            //     $(".dataname").html(nameclass);
+            //     // console.log(idclass)
+            //     // console.log(nameclass)
+            //     $("#classModal").removeClass("hidden");
+            //     $('#stdclass').val(idclass);
+            //     e.preventDefault();
+            // })
 
             // Open modal on button click
             $("#openAddModal").click(function () {

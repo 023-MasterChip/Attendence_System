@@ -8,38 +8,39 @@
     <title>Presencia</title>
 </head>
 
-<body class="h-screen bg-gradient-to-b from-cyan-200 to-cyan-500">
+<body class="h-screen bg-gradient-to-b from-cyan-500 to-cyan-900">
 
-    <nav class="flex items-center justify-between bg-cyan-800 p-4">
+    <nav class="flex items-center justify-between bg-cyan-900 p-4">
         <div class="flex items-center">
-            <div class="text-cyan-400 text-2xl font-bold">Presencia</div>
+            <div class="text-cyan-300 text-3xl font-bold">Presencia</div>
         </div>
-        <div class="flex flex-row">
+        <div class="flex">
             <span class="text-blue-200 text-lg p-2 mr-28 font-bold">{{date}}</span>
-            <form action="{{url_for('logout')}}" method="post">
-                <button type="submit"
-                    class="bg-red-200 text-red-600 text-lg p-2 rounded-lg shadow-lg font-bold hover:text-red-200 hover:bg-red-600">Logout</button>
-            </form>
         </div>
     </nav>
 
-    <div class="flex flex-row justify-evenly items-center w-auto">
-        <!-- <label class="text-lg text-white max-w-xs no-underline font-bold py-2 my-2">name</label> -->
-        <div class="flex flex-col justify-center text-center">
-            <label for="Class">Select Class</label>
-            <select
-                class="w-36 py-2 px-4 pr-8 leading-tight bg-white border border-gray-300 rounded shadow focus:outline-none focus:border-gray-500"
-                name="Class" id="Class">
-                {% for grade in grades %}
-                <option value="element1">{{ grade[0] }}</option>
-                {% endfor %}
-            </select>
-        </div>
-        <button
-            class="text-lg max-w-xs no-underline font-bold rounded-lg w-96 py-2 my-8 text-cyan-200 bg-cyan-700 hover:bg-cyan-200 hover:text-cyan-700"
-            type='submit'>
-            Take Attendance
-        </button>
+    <div class="flex flex-row justify-center items-center w-full">
+        <form action="{{url_for('mark')}}" method="post">
+            <div class="flex flex-row justify-end">
+                <div class="w-44 mx-6 mt-2 flex flex-col">
+                    <label class="block text-md px-2 font-bold text-black text-center">Select Class</label>
+                    <select
+                        class="w-full py-2 px-4 pr-8 leading-tight bg-white border border-gray-300 rounded shadow focus:outline-none focus:border-gray-500"
+                        name="sel_class" id="sel_class">
+                        {% for grade in grades %}
+                        <option value="{{ grade[0] }}">{{ grade[0] }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="flex justify-center mx-6">
+                    <button
+                        class="text-lg no-underline font-bold rounded-lg w-72 py-2 my-8 text-black bg-emerald-500 hover:bg-emerald-800 hover:text-white"
+                        type='submit'>
+                        Take Attendance
+                    </button>
+                </div>
+            </div>
+        </form>
     </div>
 
 
@@ -48,6 +49,7 @@
             Assignment</h2>
         <div class="mt-1">
             <table class="min-w-full bg-slate-600 border border-slate-300">
+                <!-- <p>Attendance Length: {{ attendance|length }}</p> -->
                 <thead>
                     <tr>
                         <th class="p-4 font-bold">ID</th>
@@ -57,13 +59,22 @@
                     </tr>
                 </thead>
                 <tbody>
+                    {% for record in attendances %}
                     <tr class="bg-slate-200 border border-slate-400">
-                        <td class="p-2 text-center font-semibold">1</td>
-                        <td class="p-2 text-center font-semibold">John Doe</td>
-                        <td class="p-2 text-center font-semibold">Present</td>
-                        <td class="p-2 text-center font-semibold">12:50:00</td>
+                        <td class="p-4 text-center font-semibold">{{ record['Roll'] }}</td>
+                        <td class="p-4 text-center font-semibold">{{ record['Name'] }}</td>
+                        <td class="p-4 text-center font-semibold">{{ record['Status'] }}</td>
+                        <td class="p-4 text-center font-semibold">{{ record['Time'] }}</td>
                     </tr>
+                    {% endfor %}
+                    <!-- {% for record in attendances %}
                     <tr class="bg-slate-200 border border-slate-400">
+                        {% for key, value in record.items() %}
+                        <td class="p-4 text-center font-semibold">{{ value }}</td>
+                        {% endfor %}
+                    </tr>
+                    {% endfor %} -->
+                    <!-- <tr class="bg-slate-200 border border-slate-400">
                         <td class="p-2 text-center font-semibold">2</td>
                         <td class="p-2 text-center font-semibold">Jane Doe</td>
                         <td class="p-2 text-center font-semibold">Present</td>
@@ -74,15 +85,16 @@
                         <td class="p-2 text-center font-semibold">John Smith</td>
                         <td class="p-2 text-center font-semibold">Absent</td>
                         <td class="p-2 text-center font-semibold">12:50:00</td>
-                    </tr>
+                    </tr> -->
                 </tbody>
             </table>
         </div>
     </div>
 
     <div class="flex mt-4 justify-end mr-4">
-        <a class="text-lg text-white text-center mx-2 no-underline w-auto font-bold rounded-lg py-2 px-4 my-4 bg-red-600 hover:bg-red-300 hover:text-black"
-            href="{{url_for('back')}}">
+        <a id="tohome"
+            class="text-lg text-white text-center mx-2 no-underline w-auto font-bold rounded-lg py-2 px-4 my-4 bg-red-600 hover:bg-red-300 hover:text-black"
+            href="{{url_for('back', id='tohome')}}">
             BACK
         </a>
     </div>
