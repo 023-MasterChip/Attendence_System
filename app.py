@@ -93,19 +93,48 @@ def extract_attendance(sel_class, sel_date):
 
     conn = sqlite3.connect(DB_NAME)
     c = conn.cursor()
-    c.execute("SELECT std_name FROM students")
-    student_names = [row[0] for row in c.fetchall()]
+    c.execute("SELECT id, std_name FROM students WHERE class = ?",(sel_class,))
+    student_data = c.fetchall()
     conn.close()
 
+    student_ids = [row[0] for row in student_data]
+    student_names = [row[1] for row in student_data]
+
     # Read the CSV file
+    # csv_file = f'Attendance/Attendance-{date}-{grade}.csv'
+    # attendance = []
+    # with open(csv_file, 'r') as file:
+    #     csv_reader = csv.DictReader(file)
+    #     for row in csv_reader:
+    #         name = row['Name']
+    #         status = "Present" if name in student_names else "Absent"
+    #         attendance.append({'Name': name, 'Roll': row['Roll'], 'Time': row['Time'], 'Status': status})
+
     csv_file = f'Attendance/Attendance-{date}-{grade}.csv'
     attendance = []
     with open(csv_file, 'r') as file:
         csv_reader = csv.DictReader(file)
         for row in csv_reader:
             name = row['Name']
-            status = "Present" if name in student_names else "Absent"
-            attendance.append({'Name': name, 'Roll': row['Roll'], 'Time': row['Time'], 'Status': status})
+            if name in student_names:
+                status = "Present"
+                time = row['Time']
+                roll = row['Roll']
+            else:
+                status = "Absent"
+                time = "---"
+                # Assign absent students a roll number based on their IDs
+                student_id = student_ids[student_names.index(name)]
+                roll = str(student_id).zfill(3)
+            attendance.append({'Name': name, 'Roll': roll, 'Time': time, 'Status': status})
+
+    # Append students not in CSV as absent
+    for i in range(len(student_names)):
+        name = student_names[i]
+        if name not in [row['Name'] for row in attendance]:
+            student_id = student_ids[i]
+            roll = str(student_id).zfill(3)
+            attendance.append({'Name': name, 'Roll': roll, 'Time': '---', 'Status': 'Absent'})
 
     # Render the attendance in an HTML table
     return attendance
@@ -243,9 +272,9 @@ def mark():
             (x, y, w, h) = face_points[0]  # Use the first face detected
             cv2.rectangle(frame, (x, y), (x + w, y + h), (255, 0, 20), 2)
             face = cv2.resize(frame[y:y + h, x:x + w], (50, 50))
-            # identified_person = identify_face(face.reshape(1, -1))[0]
+            identified_person = identify_face(face.reshape(1, -1))[0]
 
-            identified_person = "Carter_259"
+            # identified_person = "Carter_259"
 
 
             if identified_person in class_students:
@@ -304,8 +333,8 @@ def addstd():
     
     # stdrows = fetch_students(classid)
 
-    # print('Training Model')
-    # train_model()
+    print('Training Model')
+    train_model()
     # names,rolls,times,l = extract_attendance()    
     return redirect(url_for('manage', id=classid, name=classname))
 
