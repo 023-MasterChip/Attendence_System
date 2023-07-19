@@ -110,6 +110,9 @@ def extract_attendance(sel_class, sel_date):
     #         status = "Present" if name in student_names else "Absent"
     #         attendance.append({'Name': name, 'Roll': row['Roll'], 'Time': row['Time'], 'Status': status})
 
+    # if not os.path.isfile(csv_file):
+    #     return "Attendance file not found"
+
     csv_file = f'Attendance/Attendance-{date}-{grade}.csv'
     attendance = []
     with open(csv_file, 'r') as file:
