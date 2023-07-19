@@ -1,4 +1,4 @@
-#Face Recognition Attendance System
+#Face Recognition Attendance System#
 
 The advancements in computer vision and machine learning technologies have revolutionized various aspects of our lives. One such significant application is face recognition, which has gained prominence in the field of biometrics. Face recognition-based attendance systems are emerging as an innovative solution to streamline attendance management in various settings, ranging from educational institutions to corporate offices.
 
