@@ -49,7 +49,6 @@
             Assignment</h2>
         <div class="mt-1">
             <table class="min-w-full bg-slate-600 border border-slate-300">
-                <!-- <p>Attendance Length: {{ attendance|length }}</p> -->
                 <thead>
                     <tr>
                         <th class="p-4 font-bold">ID</th>
@@ -67,25 +66,6 @@
                         <td class="p-4 text-center font-semibold">{{ record['Time'] }}</td>
                     </tr>
                     {% endfor %}
-                    <!-- {% for record in attendances %}
-                    <tr class="bg-slate-200 border border-slate-400">
-                        {% for key, value in record.items() %}
-                        <td class="p-4 text-center font-semibold">{{ value }}</td>
-                        {% endfor %}
-                    </tr>
-                    {% endfor %} -->
-                    <!-- <tr class="bg-slate-200 border border-slate-400">
-                        <td class="p-2 text-center font-semibold">2</td>
-                        <td class="p-2 text-center font-semibold">Jane Doe</td>
-                        <td class="p-2 text-center font-semibold">Present</td>
-                        <td class="p-2 text-center font-semibold">12:50:00</td>
-                    </tr>
-                    <tr class="bg-slate-200 border border-slate-400">
-                        <td class="p-2 text-center font-semibold">3</td>
-                        <td class="p-2 text-center font-semibold">John Smith</td>
-                        <td class="p-2 text-center font-semibold">Absent</td>
-                        <td class="p-2 text-center font-semibold">12:50:00</td>
-                    </tr> -->
                 </tbody>
             </table>
         </div>

@@ -56,14 +56,19 @@ def train_model():
     joblib.dump(knn,'static/face_recognition_model.pkl')
     return
 
+# def extract_faces(img):
+#     try:
+#         gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+#         face_points = face_detector.detectMultiScale(gray, 1.3, 5)
+#         return face_points.tolist()
+#     except Exception as e:
+#         print(f"Error in extract_faces: {str(e)}")
+#         return []
+
 def extract_faces(img):
-    try:
-        gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-        face_points = face_detector.detectMultiScale(gray, 1.3, 5)
-        return face_points.tolist()
-    except Exception as e:
-        print(f"Error in extract_faces: {str(e)}")
-        return []
+    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    face_points = face_detector.detectMultiScale(gray, 1.3, 5)
+    return face_points
 
 def fetch_students(classid):
     idclass = classid
@@ -81,12 +86,6 @@ def get_grade():
     return rowdata
 
 def extract_attendance(sel_class, sel_date):
-    # df = pd.read_csv(f'Attendance/Attendance-{datetoday}.csv')
-    # names = df['Name']
-    # rolls = df['Roll']
-    # times = df['Time']
-    # l = len(df)
-    # return names,rolls,times,l
 
     grade = sel_class
     date = sel_date
@@ -96,24 +95,16 @@ def extract_attendance(sel_class, sel_date):
     c.execute("SELECT id, std_name FROM students WHERE class = ?",(sel_class,))
     student_data = c.fetchall()
     conn.close()
-
+    print(student_data)
     student_ids = [row[0] for row in student_data]
     student_names = [row[1] for row in student_data]
 
-    # Read the CSV file
-    # csv_file = f'Attendance/Attendance-{date}-{grade}.csv'
-    # attendance = []
-    # with open(csv_file, 'r') as file:
-    #     csv_reader = csv.DictReader(file)
-    #     for row in csv_reader:
-    #         name = row['Name']
-    #         status = "Present" if name in student_names else "Absent"
-    #         attendance.append({'Name': name, 'Roll': row['Roll'], 'Time': row['Time'], 'Status': status})
-
-    # if not os.path.isfile(csv_file):
-    #     return "Attendance file not found"
 
     csv_file = f'Attendance/Attendance-{date}-{grade}.csv'
+
+    # if csv_file not in os.listdir('Attendance'):
+    #     return render_template("mess.html", mess="No Attendence in the selected date")
+   
     attendance = []
     with open(csv_file, 'r') as file:
         csv_reader = csv.DictReader(file)
@@ -269,23 +260,18 @@ def mark():
     ret = True
     while ret:
         ret,frame = cap.read()
-        face_points = extract_faces(frame)  # Store the result of extract_faces
+        # face_points = extract_faces(frame)  # Store the result of extract_faces
         
-        if len(face_points) > 0:  # Check if any faces were detected
-            (x, y, w, h) = face_points[0]  # Use the first face detected
+        # if len(face_points) > 0:  # Check if any faces were detected
+        if extract_faces(frame)!=():
+            (x, y, w, h) = extract_faces(frame)[0]  # Use the first face detected
             cv2.rectangle(frame, (x, y), (x + w, y + h), (255, 0, 20), 2)
             face = cv2.resize(frame[y:y + h, x:x + w], (50, 50))
             identified_person = identify_face(face.reshape(1, -1))[0]
 
-            # identified_person = "Carter_259"
-
-
             if identified_person in class_students:
                 students.append(identified_person)
             
-            # students.append(identified_person)
-
-            # cv2.putText(frame, f'{identified_person}', (30, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 0, 20), 2, cv2.LINE_AA)
         cv2.imshow('Attendance',frame)
         if cv2.waitKey(1)==27:
             break
@@ -295,7 +281,6 @@ def mark():
     add_attendance(students, sel_class)
     attendance = extract_attendance(sel_class, datetoday)
     print('attendence in mark :', attendance)
-    # names,rolls,times,l = extract_attendance()    
     return render_template("attendence.html", date=datetoday2, grades=get_grade(), attendances=attendance)
 
 @app.route("/addstd", methods=['GET', 'POST'])
@@ -405,6 +390,10 @@ def manage():
 def grade():
     rows = get_grade()
     return render_template("grade.html", rows=rows)
+
+@app.route("/mess")
+def mess():
+    return render_template("mess.html")
 
 @app.route("/logout", methods=['GET', 'POST'])
 def logout():
